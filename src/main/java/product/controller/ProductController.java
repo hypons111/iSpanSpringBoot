@@ -1,59 +1,75 @@
 package product.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import product.model.Product;
+import product.model.ProductService;
+import product.model.ProductType;
+import product.model.ProductTypeService;
 
 @Controller
 public class ProductController {
-	
-	@GetMapping("/index")
-	public String processAction() {
-		return "index.html";
-	}
-	
+
 	@Autowired
-    private Product product;
-	@GetMapping("/P") @ResponseBody
-	public Product product() {
-		return product;
+	private ProductService productService;
+	@Autowired
+	private ProductTypeService productTypeService;
+	
+	@GetMapping("/productjson")
+	@ResponseBody
+	public List<Product> productJson(){
+		return productService.selectAll();
 	}
 	
-//
-//	@Autowired
-//	private IProductService productService;
-//
-//	@Autowired
-//	private IProductTypeService productTypeService;
-//
-//	@GetMapping(path = "/productindex")
-//	public String productIndex() {
-//		return "product/index";
-//	}
-//
-//	@GetMapping(path = "/productjson")
-//	@ResponseBody
-//	public List<Product> productJson() {
-//		List<Product> productResultList = productService.selectAll();
-//		return productResultList;
-//	}
-//
-//	@GetMapping(path = "/producttypejson")
-//	@ResponseBody
-//	public List<ProductType> productTypeJson() {
-//		List<ProductType> productTypeResultList = productTypeService.selectAll();
-//		return productTypeResultList;
-//	}
-//
-//	@GetMapping(path = "insert")
-//	public String insert() {
-//		return "product/insertform";
-//	}
-//
+	@GetMapping("/producttypejson")
+	@ResponseBody
+	public List<ProductType> productTypeJson() {
+		return productTypeService.selectAll();
+	}
+
+	@GetMapping(path = "/productindex")
+	public String productIndex() {
+		return "index";
+	}
+	
+	@GetMapping(path = "insert")
+	public String insert() {
+		return "insertform";
+	}
+	
+	
+	@GetMapping(path = "/productbatch")
+	public String productBatch() {
+		return "batch";
+	}
+	
+	@GetMapping(path = "update")
+	public String update() {
+		return "updateform";
+	}	
+	
+	
+	
+	@GetMapping(path = "delete")
+	public String delete(@RequestParam("Product_ID") int id) {
+		productService.delete(id);
+		return "index";
+	}
+
+	
+	
+	
+
+
 //	@RequestMapping(path = "insert", method = RequestMethod.POST)
 //	public ModelAndView doInsert(@RequestParam("name") String name, @RequestParam("type") String type,
 //			@RequestParam("stock") int stock, @RequestParam("cost") double cost, @RequestParam("price") double price,
@@ -77,12 +93,8 @@ public class ProductController {
 //
 //		return new ModelAndView("redirect:/admin/product/productindex");
 //	}
-//
-//	@GetMapping(path = "update")
-//	public String update() {
-//		return "product/updateform";
-//	}
-//
+
+	
 //	@RequestMapping(path = "update", method = RequestMethod.POST)
 //	public ModelAndView doUpdate(@RequestParam("id") int id, @RequestParam("name") String name,
 //			@RequestParam("type") String type, @RequestParam("stock") int stock, @RequestParam("cost") double cost,
@@ -100,13 +112,8 @@ public class ProductController {
 //
 //		return new ModelAndView("redirect:/admin/product/productindex");
 //	}
-//
-//	@GetMapping(path = "delete")
-//	public ModelAndView doDelete(@RequestParam("Product_ID") int id) {
-//		productService.delete(id);
-//		return new ModelAndView("redirect:/admin/product/productindex");
-//	}
-//
+
+
 //	@RequestMapping(path = "batchform", method = RequestMethod.POST)
 //	public ModelAndView batch(@RequestParam("idList") ArrayList<Integer> idList) {
 //		for (int id : idList) {

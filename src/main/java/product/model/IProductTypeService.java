@@ -1,10 +1,10 @@
-package X;
+package product.model;
 
 import java.util.List;
 
-import X.ProductType;
+import product.model.ProductType;
 
-public interface IProductTypeDao {
+public interface IProductTypeService {
 
 	ProductType selectByID(int id);
 

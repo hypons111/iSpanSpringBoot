@@ -2,45 +2,48 @@ package product.model;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
+@Entity
+@Table(name = "product")
 @Component
-@ConfigurationProperties(prefix = "product") //從 application.yml 取得 #custom properties
 public class Product implements Serializable {
-
 	private static final long serialVersionUID = 1L;
 
-//	@Id
-//	@Column(name = "product_ID")
-//	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Id
+	@Column
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int product_ID;
 
-//	@Column(name = "product_Type")
+	@Column
 	private String product_Type;
 
-//	@Column(name = "product_Name")
+	@Column
 	private String product_Name;
 
-//	@Column(name = "product_Stock")
+	@Column
 	private int product_Stock;
 
-//	@Column(name = "product_Cost")
+	@Column
 	private double product_Cost;
 
-//	@Column(name = "product_Price")
+	@Column
 	private double product_Price;
 
-//	@Column(name = "product_Image")
+	@Column
 	private String product_Image;
 
-//	@Column(name = "product_Description")
+	@Column
 	private String product_Description;
 
-
-	public Product() {
-	}
+	public Product() {}
 
 	public Product(int id, String name, String type, int stock, double cost, double price, String image,
 			String description) {
