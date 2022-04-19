@@ -6,21 +6,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-@Transactional
 @Service
+@Transactional
 public class ProductTypeService {
 
 	@Autowired
 	private ProductTypeRepository productTypeRepository;
 
-	public List<ProductType> selectAll() {
-		System.out.println("ProductTypeService : selectAll");
-		return productTypeRepository.selectAll();
+	public List<ProductType> findAll() {
+		return productTypeRepository.findAll();
 	}
 
-//	public ProductType selectByID(int id) {
-//		System.out.println("ProductTypeService : selectByID");
-//		return productTypeDao.selectByID(id);
-//	}
 
 }

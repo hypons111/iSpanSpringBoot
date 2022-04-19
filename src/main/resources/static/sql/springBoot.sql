@@ -1,10 +1,10 @@
-use springMVC
+use productDB
 
-CREATE TABLE ProductType (
-	[ProductType_ID] INT IDENTITY(1, 1) PRIMARY KEY NOT NULL, 
-	[ProductType_Name] VARCHAR(20) UNIQUE NOT NULL, 
+CREATE TABLE producttype (
+	producttypeid INT IDENTITY(1, 1) PRIMARY KEY NOT NULL, 
+	producttypename VARCHAR(20) UNIQUE NOT NULL, 
 )
-INSERT INTO ProductType VALUES
+INSERT INTO producttype VALUES
 ('-------·s¼W-------'),
 ('Beef'),
 ('Pork'),
@@ -12,18 +12,18 @@ INSERT INTO ProductType VALUES
 
 
 
-CREATE TABLE Product (
-	[Product_ID] INT NOT NULL IDENTITY(1, 1) PRIMARY KEY , 
-	[Product_Type] VARCHAR(20) NOT NULL, 
-	[Product_Name] NVARCHAR(100) NOT NULL, 
-	[Product_Stock] INT NOT NULL, 
-	[Product_Cost] NUMERIC(6, 1) NOT NULL, 
-	[Product_Price] NUMERIC(6, 1) NOT NULL, 
-	[Product_Image] VARCHAR(100) NOT NULL, 
-	[Product_Description] NVARCHAR(200) NOT NULL,
+CREATE TABLE product (
+	productid INT NOT NULL IDENTITY(1, 1) PRIMARY KEY , 
+	producttype VARCHAR(20) NOT NULL, 
+	productname NVARCHAR(100) NOT NULL, 
+	productstock INT NOT NULL, 
+	productcost NUMERIC(6, 1) NOT NULL, 
+	productprice NUMERIC(6, 1) NOT NULL, 
+	productimage VARCHAR(100) NOT NULL, 
+	productdescription NVARCHAR(500) NOT NULL,
 )
 
-INSERT INTO Product VALUES
+INSERT INTO product VALUES
 ('Beef', 	'Choice Angus Bone-In Standing Rib Roast (4-Bone)',						100,	10,		220,	'1.jpg',	''),
 ('Beef', 	'Choice Angus Bone In, Standing Rib Roast (7-Bone)',					100,	400,	299,	'2.jpg',	''),
 ('Beef', 	'USDA Prime Grade, Standing Rib Roast, Boneless (half of Rib, Netted)',	100,	420.5,	175,	'3.jpg',	''),
@@ -49,10 +49,10 @@ INSERT INTO Product VALUES
 ('Seafood',	'Mahi ¡V Mahi Filet, 6oz',												80,		60.5,	79,		'23.jpg',	'')
 
 
-select * from product ORDER BY product_ID
-select * from ProductType ORDER BY producttype_ID
+select * from product ORDER BY productid
+select * from ProductType ORDER BY producttypeid
+
+
 
 drop table product 
 drop table ProductType 
-
-

@@ -1,5 +1,4 @@
 <%@ page import="java.util.List"%>
-<%@ page import="product.model.Product"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -23,7 +22,7 @@
 		<p id="submitResult"></p>
 	</form>
 	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-	<script src="/product/productInsert.js"></script>
+	<script src="/product/js/product/productInsert.js"></script>
 
 </body>
 </html>

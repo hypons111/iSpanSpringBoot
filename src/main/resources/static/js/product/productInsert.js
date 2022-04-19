@@ -6,8 +6,8 @@ const type = document.querySelector("#type")
 const submit = document.querySelector("#submit")
 const inputs = document.querySelectorAll(".input")
 const submitResult = document.querySelector("#submitResult")
-const PRODUCT_URL = "http://localhost:8080/iSpanSpringMVC/admin/product/productjson"
-const PRODUCT_TYPE_URL = "http://localhost:8080/iSpanSpringMVC/admin/product/producttypejson"
+const PRODUCT_URL = "http://localhost:8080/product/productjson"
+const PRODUCT_TYPE_URL = "http://localhost:8080/product/producttypejson"
 let productRawData = []
 let productTypeRawData = []
 
@@ -37,14 +37,14 @@ type.addEventListener('mouseup', event => {
 function setTypePullDownMenu(data) {
 	let contents = ""
 	data.forEach(type => {
-		contents += `<option value='${type.productType_Name}'>${type.productType_Name}</option>`
+		contents += `<option value='${type.producttypename}'>${type.producttypename}</option>`
 	})
 	type.innerHTML = contents
 }
 
 name.addEventListener("change", () => {
 	for (let i = 0; i < productRawData.length; i++) {
-		if (productRawData[i].P_Name.toLowerCase() === name.value.trim().toLowerCase()) {
+		if (productRawData[i].productname.toLowerCase() === name.value.trim().toLowerCase()) {
 			alert("已有同名稱產品")
 			name.value = ""
 			i = productRawData.length

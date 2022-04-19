@@ -1,14 +1,19 @@
 package product.controller;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import product.model.Product;
@@ -21,54 +26,196 @@ public class ProductController {
 
 	@Autowired
 	private ProductService productService;
+	
 	@Autowired
 	private ProductTypeService productTypeService;
-	
+
+	///////////////////////////////////////////////////////////////////////////
+
 	@GetMapping("/productjson")
 	@ResponseBody
-	public List<Product> productJson(){
-		return productService.selectAll();
+	public List<Product> findAllProduct() {
+		System.out.println("findAllProduct");
+		return productService.findAll();
 	}
-	
+
 	@GetMapping("/producttypejson")
 	@ResponseBody
-	public List<ProductType> productTypeJson() {
-		return productTypeService.selectAll();
+	public List<ProductType> findAllProductType() {
+		System.out.println("findAllProductType");
+		return productTypeService.findAll();
 	}
 
-	@GetMapping(path = "/productindex")
-	public String productIndex() {
-		return "index";
+	@PostMapping("/save")
+	@ResponseBody
+	public ModelAndView save(@RequestBody Product product) {
+		System.out.println("save");
+		System.out.println(product);
+		productService.save(product);
+		return new ModelAndView("redirect:/productindex");
 	}
 	
-	@GetMapping(path = "insert")
-	public String insert() {
+
+	
+	
+	//	@GetMapping("/getJsonById")
+//	@ResponseBody
+//	public Optional<Product> getJsonById(@RequestParam("id") int id) {
+//		System.out.println("getjsonbyid");
+//		System.out.println(id);
+//		return productService.findById(id);
+//	}
+
+//	@PostMapping("/insert")
+//	@ResponseBody
+//	public Product insert(@RequestBody Product product) {
+//		System.out.println("insert");
+//		System.out.println(product);
+//		return productService.save(product);
+//	}
+
+//	@PostMapping("/update")
+//	@ResponseBody
+//	public Product update(@RequestBody Product product) {
+//		System.out.println("update");
+//		System.out.println(product);
+//		return productService.save(product);
+//	}
+
+	@GetMapping("/delete")
+	@ResponseBody
+	public ModelAndView deleteById(@RequestParam("productid") int id) {
+		System.out.println("deleteById");
+		System.out.println(id);
+		productService.deleteById(id);
+		return new ModelAndView("redirect:/productindex");
+	}
+	
+	@PostMapping("uploadimage")
+	@ResponseBody
+	public void uploadimage(@RequestParam("imageFile") MultipartFile file) {
+		System.out.println("uploadimage");
+		try {
+			System.out.println(file.getOriginalFilename());
+			System.out.println(file.getName());
+//			file.transferTo(new java.io.File("C:/Users/Student/Desktop/" + file.getOriginalFilename()));
+			file.transferTo(new java.io.File("C:/DataSource/workspace/iSpanSpringBoot/src/main/resources/static/images/product/" + file.getOriginalFilename()));
+			System.out.println("已上傳");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	///////////////////////////////////////////////////////////////////////////
+	
+	
+	
+	@GetMapping("/productindex")
+	public String productIndex() {
+		System.out.println("/productIndex");
+		return "index";
+	}
+
+	
+	@GetMapping("/insertform")
+	public String insertFrom() {
+		System.out.println("/insertform");
 		return "insertform";
 	}
-	
-	
-	@GetMapping(path = "/productbatch")
-	public String productBatch() {
-		return "batch";
+
+	@PostMapping("/bacthform")
+	public String batchFrom() {
+		System.out.println("/batchfrom");
+		return "batchfrom";
 	}
-	
-	@GetMapping(path = "update")
-	public String update() {
+
+	@GetMapping("/updateform")
+	public String updateForm() {
+		System.out.println("/updateform");
 		return "updateform";
-	}	
-	
-	
-	
-	@GetMapping(path = "delete")
-	public String delete(@RequestParam("Product_ID") int id) {
-		productService.delete(id);
-		return "index";
 	}
+	
+	
+	///////////////////////////////////////////////////////////////////////////
 
-	
-	
-	
+//	@GetMapping("/productjson")
+//	@ResponseBody
+//	public List<Product> productJson() {
+//		return productService.selectAll();
+//	}
 
+//	@GetMapping("/producttypejson")
+//	@ResponseBody
+//	public List<ProductType> productTypeJson() {
+//		return productTypeService.selectAll();
+//	}
+//
+//	@GetMapping("/productindex")
+//	public String productIndex() {
+//		return "index";
+//	}
+
+
+//
+//	@GetMapping("/delete")
+//	public String delete(@RequestParam("Product_ID") int id) {
+//		productService.delete(id);
+//		return "index";
+//	}
+//
+//	@PostMapping("/a.controller")
+//	@ResponseBody
+//	public Users processUsersCheckAction(@RequestBody Users users) {
+//		System.out.println(users.getUsername());
+//		System.out.println(users.getProducttype());
+//		return users;
+//	}
+//
+//	@PostMapping("/b.controller")
+//	@ResponseBody
+//	public Product processUsersCheckAction(@RequestBody Product product) {
+//		System.out.println(product.getProductname());
+//		return product;
+//	}
+//	
+//	
+//	@PostMapping("/upload.controller")
+//	@ResponseBody
+//	public String uploadImage(@RequestParam("file") MultipartFile imageFile) throws IllegalStateException, IOException {
+//		String fileName = imageFile.getOriginalFilename();
+//		File saveFileDir = new File("C:/DataSource/workspace/iSpanSpringBoot/src/main/resources/static/images");
+//		saveFileDir.mkdir();
+//		File saveFilePath = new File(saveFileDir, fileName);
+//		imageFile.transferTo(saveFilePath);
+//		return "index";
+//	}
+//
+//	@PostMapping("insert")
+//	@ResponseBody
+//	public ModelAndView doInsert(@RequestBody Product product, @RequestParam("file") MultipartFile imageFile)
+//			throws IllegalStateException, IOException {
+//
+//		// 判斷是否要新增產品種類
+////		Set<String> productTypeNameResultSet = new HashSet<>();
+////		for (ProductType productType : productTypeService.selectAll()) {
+////			productTypeNameResultSet.add(productType.getProductType_Name());
+////		}
+////		if (productTypeNameResultSet.add(type)) {
+////			productTypeService.insert(new ProductType(type));
+////		}
+//
+//		// 新增產品
+//		productService.insert(product);
+//
+//		// 把圖片儲存到資料夾
+//		String fileName = imageFile.getOriginalFilename();
+//		File saveFileDir = new File("C:/DataSource/workspace/iSpanSpringBoot/src/main/resources/static/images");
+//		saveFileDir.mkdir();
+//		File saveFilePath = new File(saveFileDir, fileName);
+//		imageFile.transferTo(saveFilePath);
+//
+//		return new ModelAndView("redirect:/admin/product/productindex");
+//	}
 
 //	@RequestMapping(path = "insert", method = RequestMethod.POST)
 //	public ModelAndView doInsert(@RequestParam("name") String name, @RequestParam("type") String type,
@@ -94,7 +241,6 @@ public class ProductController {
 //		return new ModelAndView("redirect:/admin/product/productindex");
 //	}
 
-	
 //	@RequestMapping(path = "update", method = RequestMethod.POST)
 //	public ModelAndView doUpdate(@RequestParam("id") int id, @RequestParam("name") String name,
 //			@RequestParam("type") String type, @RequestParam("stock") int stock, @RequestParam("cost") double cost,
@@ -112,7 +258,6 @@ public class ProductController {
 //
 //		return new ModelAndView("redirect:/admin/product/productindex");
 //	}
-
 
 //	@RequestMapping(path = "batchform", method = RequestMethod.POST)
 //	public ModelAndView batch(@RequestParam("idList") ArrayList<Integer> idList) {

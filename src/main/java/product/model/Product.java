@@ -15,110 +15,108 @@ import org.springframework.stereotype.Component;
 @Table(name = "product")
 @Component
 public class Product implements Serializable {
+
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column
+	@Column(name = "PRODUCTID")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int product_ID;
+	private int productid;
 
-	@Column
-	private String product_Type;
+	@Column(name = "PRODUCTTYPE")
+	private String producttype;
 
-	@Column
-	private String product_Name;
+	@Column(name = "PRODUCTNAME")
+	private String productname;
 
-	@Column
-	private int product_Stock;
+	@Column(name = "PRODUCTSTOCK")
+	private int productstock;
 
-	@Column
-	private double product_Cost;
+	@Column(name = "PRODUCTCOST")
+	private double productcost;
 
-	@Column
-	private double product_Price;
+	@Column(name = "PRODUCTPRICE")
+	private double productprice;
+	
+	@Column(name = "PRODUCTIMAGE")
+	private String productimage;
 
-	@Column
-	private String product_Image;
+	@Column(name = "PRODUCTDESCRIPTION")
+	private String productdescription;
 
-	@Column
-	private String product_Description;
+	
 
-	public Product() {}
-
-	public Product(int id, String name, String type, int stock, double cost, double price, String image,
-			String description) {
-		this.product_ID = id;
-		this.product_Type = type;
-		this.product_Name = name;
-		this.product_Stock = stock;
-		this.product_Cost = cost;
-		this.product_Price = price;
-		this.product_Image = image;
-		this.product_Description = description;
+	public int getProductid() {
+		return productid;
 	}
 
-	public int getProduct_ID() {
-		return product_ID;
+	public void setProductid(int productid) {
+		this.productid = productid;
 	}
 
-	public void setProduct_ID(int product_ID) {
-		this.product_ID = product_ID;
+	public String getProducttype() {
+		return producttype;
 	}
 
-	public String getProduct_Type() {
-		return product_Type;
+	public void setProducttype(String producttype) {
+		this.producttype = producttype;
 	}
 
-	public void setProduct_Type(String product_Type) {
-		this.product_Type = product_Type;
+	public String getProductname() {
+		return productname;
 	}
 
-	public String getProduct_Name() {
-		return product_Name;
+	public void setProductname(String productname) {
+		this.productname = productname;
 	}
 
-	public void setProduct_Name(String product_Name) {
-		this.product_Name = product_Name;
+	public int getProductstock() {
+		return productstock;
 	}
 
-	public int getProduct_Stock() {
-		return product_Stock;
+	public void setProductstock(int productstock) {
+		this.productstock = productstock;
 	}
 
-	public void setProduct_Stock(int product_Stock) {
-		this.product_Stock = product_Stock;
+	public double getProductcost() {
+		return productcost;
 	}
 
-	public double getProduct_Cost() {
-		return product_Cost;
+	public void setProductcost(double productcost) {
+		this.productcost = productcost;
 	}
 
-	public void setProduct_Cost(double product_Cost) {
-		this.product_Cost = product_Cost;
+	public double getProductprice() {
+		return productprice;
 	}
 
-	public double getProduct_Price() {
-		return product_Price;
+	public void setProductprice(double productprice) {
+		this.productprice = productprice;
 	}
 
-	public void setProduct_Price(double product_Price) {
-		this.product_Price = product_Price;
+	public String getProductimage() {
+		return productimage;
 	}
 
-	public String getProduct_Image() {
-		return product_Image;
+	public void setProductimage(String productimage) {
+		this.productimage = productimage;
 	}
 
-	public void setProduct_Image(String product_Image) {
-		this.product_Image = product_Image;
+	public String getProductdescription() {
+		return productdescription;
 	}
 
-	public String getProduct_Description() {
-		return product_Description;
+	public void setProductdescription(String productdescription) {
+		this.productdescription = productdescription;
 	}
 
-	public void setProduct_Description(String product_Description) {
-		this.product_Description = product_Description;
+
+
+	@Override
+	public String toString() {
+		return "Product [productid=" + productid + ", producttype=" + producttype + ", productname=" + productname
+				+ ", productstock=" + productstock + ", productcost=" + productcost + ", productprice=" + productprice
+				+ ", productimage=" + productimage + ", productdescription=" + productdescription + "]";
 	}
 
 }

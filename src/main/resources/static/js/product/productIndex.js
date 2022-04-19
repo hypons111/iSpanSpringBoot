@@ -1,4 +1,4 @@
-const BASE_URL = "http://localhost:8080/product/productjson";
+const BASE_URL = "http://localhost:8080/product/productjson"
 const batchButton = document.querySelector('#batchButton')
 const batchHiddenInput = document.querySelector('#batchHiddenInput')
 const resultTable = document.querySelector("#resultTable")
@@ -79,29 +79,29 @@ function showData(data) {
 	contents = ""
 	for (let i = 0; i < data.length; i++) {
 		contents += "<tr><td>" + (i + 1) + "</td>"
-		contents += "<td>" + data[i].product_Type + "</td>"
-		contents += "<td>" + data[i].product_ID + "</td>"
-		contents += "<td>" + data[i].product_Name + "</td>"
-		contents += "<td>" + data[i].product_Stock + "</td>"
-		contents += "<td>" + data[i].product_Cost + "</td>"
-		contents += "<td>" + data[i].product_Price + "</td>"
-		contents += "<td><img src='/product/" + data[i].product_Image + "?" + Math.random() + "' width='50px'></td>"
-		contents += "<td><a href=update?Product_ID=" + data[i].product_ID + "><button>Edit</button></a></td>"
-		contents += "<td><a href=delete?Product_ID=" + data[i].product_ID + "><button>Delete</button></a></td></tr>"
+		contents += "<td>" + data[i].producttype + "</td>"
+		contents += "<td>" + data[i].productid + "</td>"
+		contents += "<td>" + data[i].productname + "</td>"
+		contents += "<td>" + data[i].productstock + "</td>"
+		contents += "<td>" + data[i].productcost + "</td>"
+		contents += "<td>" + data[i].productprice + "</td>"
+		contents += "<td><img src='/product/images/product/" + data[i].productimage + "?" + Math.random() + "' width='50px'></td>"
+		contents += "<td><a href=updateform?productid=" + data[i].productid + "><button>Edit</button></a></td>"
+		contents += "<td><a href=delete?productid=" + data[i].productid + "><button>Delete</button></a></td></tr>"
 	}
 	resultTable.innerHTML = contents
 }
 
 function ultraFuckingSearch() {
 	let tempData = rawData
-	const KEY = ["", "product_ID", "", "product_Stock", "product_Cost", "product_Price"]
+	const KEY = ["", "productid", "", "productstock", "productcost", "productprice"]
 	for (let k = 0; k < columnSearchInputs.length; k++) {
 
 		if (columnSearchInputs[k].value !== "") {
 			if (k === 0) {
-				tempData = tempData.filter(product => product.product_Type.toLowerCase().includes(columnSearchInputs[0].value))
+				tempData = tempData.filter(product => product.producttype.toLowerCase().includes(columnSearchInputs[0].value))
 			} else if (k === 2) {
-				tempData = tempData.filter(product => product.product_Name.toLowerCase().includes(columnSearchInputs[2].value.toLowerCase()))
+				tempData = tempData.filter(product => product.productname.toLowerCase().includes(columnSearchInputs[2].value.toLowerCase()))
 			} else {
 				if (columnSearchInputs[k].value.includes("<")) {
 					tempData = tempData.filter(product => product[KEY[k]] < Number(columnSearchInputs[k].value.slice(1)))

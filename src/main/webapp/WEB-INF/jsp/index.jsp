@@ -15,10 +15,10 @@
 		<table>
 			<tbody>
 				<tr>
-					<th><a href="insert"><button>Add New Product</button></a></th>
+					<th><a href="insertform"><button>Add New Product</button></a></th>
 					<th><button id="showAll">Show All Product</button></th>
 					<th>
-						<form method="post" action="batchform">
+						<form method="post" action="bacthform">
 							<button id="batchButton">Batch</button>
 							<input id="batchHiddenInput" type="text" name="idList" value="" />
 						</form>
@@ -59,7 +59,7 @@
 	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 	<script
 		src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-	<script src="/product/product.js"></script>
+	<script src="/product/js/product/productIndex.js"></script>
 
 
 </body>

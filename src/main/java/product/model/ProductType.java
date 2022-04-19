@@ -10,45 +10,41 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "productType")
+@Table(name = "producttype")
 public class ProductType implements Serializable {
+
 	private static final long serialVersionUID = 1L;
 
-	@Id
-	@Column
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int producttype_ID;
-
-	@Column(name = "producttype_Name")
 	// 駝峰式 productType_Name 會自動變 product_type_Name 我屌佢老母
 	// 所以屬性要全細階 或者用 (name = "producttype_Name")
-	private String productType_Name;
 
-	public ProductType() {
+	@Id
+	@Column(name = "PRODUCTTYPEID")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int producttypeid;
+
+	@Column(name = "PRODUCTTYPENAME")
+	private String producttypename;
+
+	public int getProducttypeid() {
+		return producttypeid;
 	}
 
-	public ProductType(String name) {
-		this.productType_Name = name;
+	public void setProducttypeid(int producttypeid) {
+		this.producttypeid = producttypeid;
 	}
 
-	public int getProductType_ID() {
-		return producttype_ID;
+	public String getProducttypename() {
+		return producttypename;
 	}
 
-	public void setProductType_ID(int productType_ID) {
-		this.producttype_ID = productType_ID;
+	public void setProducttypename(String producttypename) {
+		this.producttypename = producttypename;
 	}
 
-	public String getProductType_Name() {
-		return productType_Name;
-	}
-
-	public void setPT_Name(String productType_Name) {
-		this.productType_Name = productType_Name;
-	}
-
-	public static long getSerialversionuid() {
-		return serialVersionUID;
+	@Override
+	public String toString() {
+		return "ProductType [producttypeid=" + producttypeid + ", producttypename=" + producttypename + "]";
 	}
 
 }
