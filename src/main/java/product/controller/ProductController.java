@@ -1,8 +1,10 @@
 package product.controller;
 
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -22,11 +25,12 @@ import product.model.ProductType;
 import product.model.ProductTypeService;
 
 @Controller
+@SessionAttributes(names = { "imageName" })
 public class ProductController {
 
 	@Autowired
 	private ProductService productService;
-	
+
 	@Autowired
 	private ProductTypeService productTypeService;
 
@@ -50,15 +54,76 @@ public class ProductController {
 	@ResponseBody
 	public ModelAndView save(@RequestBody Product product) {
 		System.out.println("save");
-		System.out.println(product);
+		
+		// 判斷是否要新增產品種類
+		Set<String> productTypeNameResultSet = new HashSet<>();
+		for (ProductType productType : productTypeService.findAll()) {
+			productTypeNameResultSet.add(productType.getProducttypename());
+		}
+		if (productTypeNameResultSet.add(product.getProducttype())) {
+			ProductType pt = new ProductType();
+			pt.setProducttypename(product.getProducttype());
+
+			productTypeService.save(pt);
+		}
+		
 		productService.save(product);
 		return new ModelAndView("redirect:/productindex");
 	}
-	
 
-	
-	
-	//	@GetMapping("/getJsonById")
+	@GetMapping("/delete")
+	@ResponseBody
+	public ModelAndView deleteById(@RequestParam("productid") int id) {
+		System.out.println("deleteById");
+		System.out.println(id);
+		productService.deleteById(id);
+		return new ModelAndView("redirect:/productindex");
+	}
+
+	@PostMapping("uploadimage")
+	@ResponseBody
+	public void uploadimage(@RequestParam("imageFile") MultipartFile file, @RequestParam("imageName") String imageName) {
+		if(file.getOriginalFilename().length() != 0) {
+			System.out.println("uploadimage");
+			String location = "C:/DataSource/workspace/iSpanSpringBoot/src/main/resources/static/images/product/";
+			try {
+				file.transferTo(new java.io.File(location + imageName + ".jpg"));
+				System.out.println("已上傳到" + location);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	///////////////////////////////////////////////////////////////////////////
+
+	@GetMapping("/productindex")
+	public String productIndex() {
+		System.out.println("/productIndex");
+		return "index";
+	}
+
+	@GetMapping("/insertform")
+	public String insertFrom() {
+		System.out.println("/insertform");
+		return "insertform";
+	}
+
+	@PostMapping("/bacthform")
+	public String batchFrom() {
+		System.out.println("/batchfrom");
+		return "batchfrom";
+	}
+
+	@GetMapping("/updateform")
+	public String updateForm() {
+		System.out.println("/updateform");
+		return "updateform";
+	}
+
+	///////////////////////////////////////////////////////////////////////////
+
+	// @GetMapping("/getJsonById")
 //	@ResponseBody
 //	public Optional<Product> getJsonById(@RequestParam("id") int id) {
 //		System.out.println("getjsonbyid");
@@ -82,60 +147,6 @@ public class ProductController {
 //		return productService.save(product);
 //	}
 
-	@GetMapping("/delete")
-	@ResponseBody
-	public ModelAndView deleteById(@RequestParam("productid") int id) {
-		System.out.println("deleteById");
-		System.out.println(id);
-		productService.deleteById(id);
-		return new ModelAndView("redirect:/productindex");
-	}
-	
-	@PostMapping("uploadimage")
-	@ResponseBody
-	public void uploadimage(@RequestParam("imageFile") MultipartFile file) {
-		System.out.println("uploadimage");
-		try {
-			System.out.println(file.getOriginalFilename());
-			System.out.println(file.getName());
-//			file.transferTo(new java.io.File("C:/Users/Student/Desktop/" + file.getOriginalFilename()));
-			file.transferTo(new java.io.File("C:/DataSource/workspace/iSpanSpringBoot/src/main/resources/static/images/product/" + file.getOriginalFilename()));
-			System.out.println("已上傳");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
-	///////////////////////////////////////////////////////////////////////////
-	
-	
-	
-	@GetMapping("/productindex")
-	public String productIndex() {
-		System.out.println("/productIndex");
-		return "index";
-	}
-
-	
-	@GetMapping("/insertform")
-	public String insertFrom() {
-		System.out.println("/insertform");
-		return "insertform";
-	}
-
-	@PostMapping("/bacthform")
-	public String batchFrom() {
-		System.out.println("/batchfrom");
-		return "batchfrom";
-	}
-
-	@GetMapping("/updateform")
-	public String updateForm() {
-		System.out.println("/updateform");
-		return "updateform";
-	}
-	
-	
 	///////////////////////////////////////////////////////////////////////////
 
 //	@GetMapping("/productjson")
@@ -154,7 +165,6 @@ public class ProductController {
 //	public String productIndex() {
 //		return "index";
 //	}
-
 
 //
 //	@GetMapping("/delete")

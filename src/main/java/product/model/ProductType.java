@@ -26,6 +26,13 @@ public class ProductType implements Serializable {
 	@Column(name = "PRODUCTTYPENAME")
 	private String producttypename;
 
+	
+//	
+//	public ProductType(String producttypename) {
+//		super();
+//		this.producttypename = producttypename;
+//	}
+
 	public int getProducttypeid() {
 		return producttypeid;
 	}

@@ -22,7 +22,7 @@
 		<p id="submitResult"></p>
 	</form>
 	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-	<script src="/product/js/product/productInsert.js"></script>
+	<script src="/product/js/product/insert.js"></script>
 
 </body>
 </html>

@@ -17,5 +17,8 @@ public class ProductTypeService {
 		return productTypeRepository.findAll();
 	}
 
-
+	public ProductType save(ProductType productType) {
+		return productTypeRepository.save(productType);
+	}
+	
 }

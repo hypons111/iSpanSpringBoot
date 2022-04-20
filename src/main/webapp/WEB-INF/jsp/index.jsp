@@ -59,7 +59,7 @@
 	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 	<script
 		src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-	<script src="/product/js/product/productIndex.js"></script>
+	<script src="/product/js/product/index.js"></script>
 
 
 </body>
