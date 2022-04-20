@@ -1,95 +1,160 @@
-const form = document.querySelector("#insert")
-const id = document.querySelector("#id")
-const name = document.querySelector("#name")
-const supplier = document.querySelector("#supplier")
-const type = document.querySelector("#type")
-const submit = document.querySelector("#submit")
-const inputs = document.querySelectorAll(".input")
-const submitResult = document.querySelector("#submitResult")
-const PRODUCT_URL = "http://localhost:8080/product/productjson"
-const PRODUCT_TYPE_URL = "http://localhost:8080/product/producttypejson"
+const queryString = window.location.search
+const urlParams = new URLSearchParams(queryString)
+const targetID = urlParams.get('productid')
+const PRODUCT_URL = "http://localhost:8080/product/productjson";
+const PRODUCT_TYPE_URL = "http://localhost:8080/product/producttypejson";
+const type = document.querySelector("#producttype")
+
 let productRawData = []
 let productTypeRawData = []
+let oldProductName = ""
 
 axios.get(PRODUCT_TYPE_URL)
 	.then(response => {
 		productTypeRawData = response.data
-		setTypePullDownMenu(productTypeRawData)
+		showPullDownList()
 	})
 	.catch(error => { console.log(error) })
 
-
-axios
-	.get(PRODUCT_URL)
-	.then((response) => {
-		productRawData = response.data
+axios.get(PRODUCT_URL)
+	.then(response => {
+		//showData(getTargetProduct(response.data))
+		addEventListeners(response.data)
 	})
-	.catch((err) => console.log(err));
+	.catch(error => { console.log(error) })
 
-
-type.addEventListener('mouseup', event => {
-	if(event.target.value === "-------新增-------") {
-		event.target.parentElement.innerHTML = `<label>產品種類</label><input id="type" class="input" type="text" name="type">`
-	}
-})
-
-
-function setTypePullDownMenu(data) {
-	let contents = ""
-	data.forEach(type => {
-		contents += `<option value='${type.producttypename}'>${type.producttypename}</option>`
-	})
-	type.innerHTML = contents
+function getTargetProduct(data) {
+	return data.find(product => product.productid == targetID)
 }
 
-name.addEventListener("change", () => {
-	for (let i = 0; i < productRawData.length; i++) {
-		if (productRawData[i].productname.toLowerCase() === name.value.trim().toLowerCase()) {
-			alert("已有同名稱產品")
-			name.value = ""
-			i = productRawData.length
-		}
+
+// 產品種類輸入變成 pull down menu
+function showPullDownList() {
+	let typeContent = "	<select id='producttype' class='type' name='type'>"
+	for (let i = 0; i < productTypeRawData.length; i++) {
+		typeContent += `<option value='${productTypeRawData[i].producttypename}'>${productTypeRawData[i].producttypename}</option>`
 	}
-})
+	typeContent += "<option value='newProductType'>新增產品種類</option></select>"
+	typeList.innerHTML = typeContent
+}
 
-form.addEventListener("submit", (event) => {
-	let switcher = "on"
-	submitResult.innerText = ""
 
-	inputs.forEach(input => {
-		if (input.value.trim() == "") {
-			switcher = "off"
-			submitResult.innerHTML += "請輸入" + input.previousElementSibling.innerText + "<br>"
-			event.preventDefault()
+
+function addEventListeners(data) {
+	const inputs = document.querySelectorAll("table .input")
+	const typeList = document.querySelector("#typeList")
+	const submitButton = document.getElementById("submitButton")
+	const inputChecking = document.getElementById("inputChecking")
+
+	// 檢查重複產品名稱
+	document.querySelector("#name input").addEventListener("change", (event) => {
+		for (let i = 0; i < data.length; i++) {
+			if (data[i].productname.toLowerCase() == event.target.value.trim().toLowerCase()) {
+				alert("已有同名稱產品")
+				event.target.value = oldProductName
+				i = data.length
+			}
 		}
 	})
 
-	for (let i = 2; i < inputs.length - 1; i++) {
-		if (i === 2) {
-			if (inputs[i].value.match(/\./)) {
+
+
+	// 判斷是否需要新增產品種類
+	typeList.addEventListener('click', event => {
+		if (event.target.value === "newProductType") {
+			event.target.parentElement.innerHTML = `<input id="producttype" class="input" type="text" name="type" placeholder="輸入產品種類">`
+		}
+	})
+
+	// 檢查輸入資料
+	submitButton.addEventListener("click", (event) => {
+		event.preventDefault()
+		inputChecking.innerHTML = ""
+		let switcher = "on"
+
+		for (let i = 0; i < inputs.length - 1; i++) {
+
+			// 刪除前後空白
+			inputs[i].value = inputs[i].value.trim()
+
+			// 檢查空白輸入
+			if (inputs[i].value === "" ) {
 				switcher = "off"
-				event.preventDefault()
-				submitResult.innerHTML += inputs[i].previousElementSibling.innerText + "只可輸入整數" + "<br>"
+				inputChecking.innerHTML += "請輸入" + inputs[i].classList[0] + "<br>"
+			}
+
+			// 檢查 stock 輸入小數
+			if (i === 1 && inputs[i].value.match(/\./)) {
+				switcher = "off"
+				inputChecking.innerHTML += inputs[i].classList[0] + "只可輸入整數" + "<br>"
+			}
+
+			// 檢查 stock cost price 輸入非數字
+			if (i >= 1 && i <= 3) {
+				if (inputs[i].value.match(/[\`\~\!\@\#\$\%\^\&\*\(\)\_\+\-\=\{\}\[\]\;\:\'\"\<\>\?\,\\]/) ||
+					inputs[i].value.match(/[\u4E00-\u9FFF]/) ||
+					inputs[i].value.match(/[a-zA-Z]/)) {
+					switcher = "off"
+					inputChecking.innerHTML += inputs[i].classList[0] + "只可輸入數字" + "<br>"
+				}
+			}
+
+			// 檢查 description 輸入數字超過上限
+			if (i === 4 && inputs[i].value.length > 500) {
+				inputChecking.innerHTML += inputs[i].classList[0] + "不可超過500個字" + "<br>"
 			}
 		}
-		if (inputs[i].value.match(/[\`\~\!\@\#\$\%\^\&\*\(\)\_\+\-\=\{\}\[\]\;\:\'\"\<\>\?\,\\]/) ||
-			inputs[i].value.match(/[\u4E00-\u9FFF]/) ||
-			inputs[i].value.match(/[a-zA-Z]/)) {
-			switcher = "off"
-			event.preventDefault()
-			submitResult.innerHTML += inputs[i].previousElementSibling.innerText + "只可輸入數字" + "<br>"
+
+		// 送出請求
+		if (switcher === "on") {
+			sendRequests()
 		}
-		if (inputs[i].value.match("..")) {
-			inputs[i].value = inputs[i].value.replace("..", ".")
-		}
-	}
-	if (switcher === "on") {
+	})
+}
 
 
-		inputs.forEach(input => {
-			console.log(input.value)
+
+function sendRequests() {
+	document.addEventListener("click", (event) => {
+		event.preventDefault()
+		axios.all([insert(), uploadImage()])
+			.then(axios.spread(function(acct, perms) {
+			}))
+	})
+}
+
+// 更新資料
+function insert() {
+	return axios.post('/product/save', {
+		producttype: document.getElementById("producttype").value,
+		productname: document.getElementById("productname").value,
+		productstock: document.getElementById("productstock").value,
+		productcost: document.getElementById("productcost").value,
+		productprice: document.getElementById("productprice").value,
+		productdescription: document.getElementById("productdescription").value,
+		productimage: "temp.jpg"
+	})
+		.then(function(response) {
+			location.href = "/product/productindex"
 		})
+		.catch(function(error) {
+			console.log(error)
+		});
+}
 
-		event.currentTarget.submit()
-	}
-})
+// 更新圖片
+function uploadImage() {
+	let formData = new FormData(insertForm)
+	formData.append('file', document.getElementById("productimage").value)
+	formData.append('imageName', "temp.jpg")
+	return axios({
+		url: "/product/uploadimage",
+		method: "post",
+		data: formData,
+		headers: { 'Content-Type': 'multipart/form-data' }
+	})
+		.then(function(response) { })
+		.catch(function(error) {
+			console.log(error)
+		});
+}

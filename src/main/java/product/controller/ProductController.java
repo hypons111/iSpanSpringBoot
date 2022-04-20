@@ -52,7 +52,7 @@ public class ProductController {
 
 	@PostMapping("/save")
 	@ResponseBody
-	public ModelAndView save(@RequestBody Product product) {
+	public void save(@RequestBody Product product) {
 		System.out.println("save");
 		
 		// 判斷是否要新增產品種類
@@ -63,19 +63,15 @@ public class ProductController {
 		if (productTypeNameResultSet.add(product.getProducttype())) {
 			ProductType pt = new ProductType();
 			pt.setProducttypename(product.getProducttype());
-
 			productTypeService.save(pt);
 		}
-		
 		productService.save(product);
-		return new ModelAndView("redirect:/productindex");
 	}
 
 	@GetMapping("/delete")
 	@ResponseBody
 	public ModelAndView deleteById(@RequestParam("productid") int id) {
 		System.out.println("deleteById");
-		System.out.println(id);
 		productService.deleteById(id);
 		return new ModelAndView("redirect:/productindex");
 	}
@@ -87,8 +83,8 @@ public class ProductController {
 			System.out.println("uploadimage");
 			String location = "C:/DataSource/workspace/iSpanSpringBoot/src/main/resources/static/images/product/";
 			try {
-				file.transferTo(new java.io.File(location + imageName + ".jpg"));
-				System.out.println("已上傳到" + location);
+				file.transferTo(new java.io.File(location + imageName));
+				System.out.println("已上傳到: " + location);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

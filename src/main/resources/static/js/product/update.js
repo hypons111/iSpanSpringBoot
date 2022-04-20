@@ -17,7 +17,6 @@ axios.get(PRODUCT_TYPE_URL)
 axios.get(PRODUCT_URL)
 	.then(response => {
 		showData(getTargetProduct(response.data))
-
 		addEventListeners(response.data)
 	})
 	.catch(error => { console.log(error) })
@@ -49,11 +48,13 @@ function addEventListeners(data) {
 	const submitButton = document.getElementById("submitButton")
 	const inputChecking = document.getElementById("inputChecking")
 
+	// 防止更改產品編號
 	document.querySelector("#id").addEventListener("click", () => {
 		event.preventDefault()
 		alert("產品編號不能更改")
 	})
-
+	
+	// 檢查重複產品名稱
 	document.querySelector("#name input").addEventListener("change", (event) => {
 		for (let i = 0; i < data.length; i++) {
 			if (data[i].productname.toLowerCase() == event.target.value.trim().toLowerCase()) {
@@ -63,7 +64,8 @@ function addEventListeners(data) {
 			}
 		}
 	})
-
+	
+	// 產品種類輸入變成 pull down menu
 	typeInput.addEventListener("click", event => {
 		let typeContent = "	<select id='type' class='type' name='type'>"
 		for (let j = 0; j < productTypeRawData.length; j++) {
@@ -73,12 +75,14 @@ function addEventListeners(data) {
 		typeList.innerHTML = typeContent
 	})
 
+	// 判斷是否需要新增產品種類
 	typeList.addEventListener('click', event => {
 		if (event.target.value === "newProductType") {
 			event.target.parentElement.innerHTML = `<input id="producttype" class="input" type="text" name="type" placeholder="輸入產品種類">`
 		}
 	})
 
+	// 檢查輸入資料
 	submitButton.addEventListener("click", (event) => {
 		event.preventDefault()
 		inputChecking.innerHTML = ""
