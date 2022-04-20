@@ -87,8 +87,8 @@ function showData(data) {
 		contents += "<td>" + data[i].productcost + "</td>"
 		contents += "<td>" + data[i].productprice + "</td>"
 		contents += "<td><img src='/product/images/product/" + data[i].productimage + "?" + Math.random() + "' width='50px'></td>"
-		contents += "<td><a href=updateform?productid=" + data[i].productid + "><button>Edit</button></a></td>"
-		contents += "<td><a href=delete?productid=" + data[i].productid + "><button id='deleteButton'data-productid='" + data[i].productid + "' >Delete</button></a></td></tr>"
+		contents += "<td><a href=updateform?systemid=" + data[i].systemid + "><button>Edit</button></a></td>"
+		contents += "<td><a href=delete?systemid=" + data[i].systemid + "><button id='deleteButton'data-productid='" + data[i].productid + "' >Delete</button></a></td></tr>"
 	}
 	resultTable.innerHTML = contents
 }
@@ -128,6 +128,9 @@ function getSearchList() {
 	}
 	return idList
 }
+
+
+
 
 	function addDeleteButtonEventListener() {
 		resultTable.addEventListener("click", (event) => {

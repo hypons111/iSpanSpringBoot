@@ -16,12 +16,15 @@ import org.springframework.stereotype.Component;
 @Component
 public class Product implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+	private static long serialVersionUID = 1L;
 
 	@Id
-	@Column(name = "PRODUCTID")
+	@Column(name = "SYSTEMID")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int productid;
+	private int systemid;
+	
+	@Column(name = "PRODUCTID")
+	private String productid;
 
 	@Column(name = "PRODUCTTYPE")
 	private String producttype;
@@ -44,13 +47,27 @@ public class Product implements Serializable {
 	@Column(name = "PRODUCTDESCRIPTION")
 	private String productdescription;
 
-	
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
 
-	public int getProductid() {
+	public static void setSerialversionuid(long serialversionuid) {
+		serialVersionUID = serialversionuid;
+	}
+
+	public int getSystemid() {
+		return systemid;
+	}
+
+	public void setSystemid(int systemid) {
+		this.systemid = systemid;
+	}
+
+	public String getProductid() {
 		return productid;
 	}
 
-	public void setProductid(int productid) {
+	public void setProductid(String productid) {
 		this.productid = productid;
 	}
 
@@ -110,13 +127,7 @@ public class Product implements Serializable {
 		this.productdescription = productdescription;
 	}
 
+	
 
-
-	@Override
-	public String toString() {
-		return "Product [productid=" + productid + ", producttype=" + producttype + ", productname=" + productname
-				+ ", productstock=" + productstock + ", productcost=" + productcost + ", productprice=" + productprice
-				+ ", productimage=" + productimage + ", productdescription=" + productdescription + "]";
-	}
 
 }

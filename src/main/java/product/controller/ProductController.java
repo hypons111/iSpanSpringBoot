@@ -25,7 +25,6 @@ import product.model.ProductType;
 import product.model.ProductTypeService;
 
 @Controller
-@SessionAttributes(names = { "imageName" })
 public class ProductController {
 
 	@Autowired
@@ -70,7 +69,7 @@ public class ProductController {
 
 	@GetMapping("/delete")
 	@ResponseBody
-	public ModelAndView deleteById(@RequestParam("productid") int id) {
+	public ModelAndView deleteById(@RequestParam("systemid") int id) {
 		System.out.println("deleteById");
 		productService.deleteById(id);
 		return new ModelAndView("redirect:/productindex");
@@ -105,7 +104,7 @@ public class ProductController {
 		return "insertform";
 	}
 
-	@PostMapping("/bacthform")
+	@PostMapping("/batchform")
 	public String batchFrom() {
 		System.out.println("/batchfrom");
 		return "batchfrom";

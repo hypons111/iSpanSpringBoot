@@ -1,6 +1,6 @@
 const queryString = window.location.search
 const urlParams = new URLSearchParams(queryString)
-const targetID = urlParams.get('productid')
+const targetID = urlParams.get('systemid')
 const PRODUCT_URL = "http://localhost:8080/product/productjson";
 const PRODUCT_TYPE_URL = "http://localhost:8080/product/producttypejson";
 
@@ -22,11 +22,12 @@ axios.get(PRODUCT_URL)
 	.catch(error => { console.log(error) })
 
 function getTargetProduct(data) {
-	return data.find(product => product.productid == targetID)
+	return data.find(product => product.systemid == targetID)
 }
 
 function showData(data) {
 	let contents = "<tr>"
+	contents += "<td>								<input id='systemid'			type='hidden' class=''					name='type'			value='" + data.systemid + "'></td>"
 	contents += "<td id='typeList' width='155px'>	<input id='producttype'			type='text' class='產品種類 typeInput'	name='type'			value='" + data.producttype + "'></td>"
 	contents += "<td id='id'>						<input id='productid'			type='text' class='產品編號 input'		name='id'			value='" + data.productid + "' disabled ></td>"
 	contents += "<td id='name'>						<input id='productname'			type='text' class='產品名稱 input'		name='name'	 		value='" + data.productname + "'></td>"
@@ -143,6 +144,7 @@ function sendRequests() {
 // 更新資料
 function update() {
 	return axios.post('/product/save', {
+		systemid: document.getElementById("systemid").value,
 		producttype: document.getElementById("producttype").value,
 		productid: document.getElementById("productid").value,
 		productname: document.getElementById("productname").value,
@@ -164,7 +166,7 @@ function update() {
 function uploadImage() {
 	let formData = new FormData(updateForm)
 	formData.append('file', document.getElementById("productimage").value)
-	formData.append('imageName', document.getElementById("productid").value)
+	formData.append('imageName', document.getElementById("productid").value + ".jpg")
 	return axios({
 		url: "/product/uploadimage",
 		method: "post",

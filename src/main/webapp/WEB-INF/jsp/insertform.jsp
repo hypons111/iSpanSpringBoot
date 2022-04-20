@@ -12,6 +12,7 @@
 		<table border="1">
 			<thead>
 				<tr>
+					<th>ID</th>
 					<th>Type</th>
 					<th>Name</th>
 					<th>Stock</th>
@@ -22,9 +23,10 @@
 				</tr>
 			</thead>
 			<tbody id="resultTable">
+				<td id='id'>						<input id='productid' 			type='text' class='產品編號' name='id' value=''></td>
 				<td id='typeList' width='155px'>	<input id='producttype' 		type='text' class='產品種類 input' name='type' value=''></td>
 				<td id='name'>						<input id='productname' 		type='text' class='產品名稱 input' name='name' value=''></td>
-				<td>								<input id='productstock'		type='text' class='產品存量 input' 	name='stock' value=''></td>
+				<td>								<input id='productstock'		type='text' class='產品存量 input' name='stock' value=''></td>
 				<td>								<input id='productcost' 		type='text' class='產品買價 input' name='cost' value=''></td>
 				<td>								<input id='productprice' 		type='text' class='產品售價 input' name='price' value=''></td>
 				<td>								<input id='productdescription' 	type='text' class='產品介紹 input' name='description' value=''></td>

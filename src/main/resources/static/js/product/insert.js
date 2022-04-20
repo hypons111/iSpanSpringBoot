@@ -19,6 +19,7 @@ axios.get(PRODUCT_TYPE_URL)
 axios.get(PRODUCT_URL)
 	.then(response => {
 		//showData(getTargetProduct(response.data))
+		setID()
 		addEventListeners(response.data)
 	})
 	.catch(error => { console.log(error) })
@@ -46,6 +47,7 @@ function addEventListeners(data) {
 	const submitButton = document.getElementById("submitButton")
 	const inputChecking = document.getElementById("inputChecking")
 
+
 	// 檢查重複產品名稱
 	document.querySelector("#name input").addEventListener("change", (event) => {
 		for (let i = 0; i < data.length; i++) {
@@ -56,8 +58,6 @@ function addEventListeners(data) {
 			}
 		}
 	})
-
-
 
 	// 判斷是否需要新增產品種類
 	typeList.addEventListener('click', event => {
@@ -126,13 +126,14 @@ function sendRequests() {
 // 更新資料
 function insert() {
 	return axios.post('/product/save', {
+		productid: document.getElementById("productid").value,
 		producttype: document.getElementById("producttype").value,
 		productname: document.getElementById("productname").value,
 		productstock: document.getElementById("productstock").value,
 		productcost: document.getElementById("productcost").value,
 		productprice: document.getElementById("productprice").value,
 		productdescription: document.getElementById("productdescription").value,
-		productimage: "temp.jpg"
+		productimage: document.getElementById("productid").value + ".jpg"
 	})
 		.then(function(response) {
 			location.href = "/product/productindex"
@@ -146,7 +147,7 @@ function insert() {
 function uploadImage() {
 	let formData = new FormData(insertForm)
 	formData.append('file', document.getElementById("productimage").value)
-	formData.append('imageName', "temp.jpg")
+	formData.append('imageName', document.getElementById("productid").value + ".jpg")
 	return axios({
 		url: "/product/uploadimage",
 		method: "post",
@@ -157,4 +158,29 @@ function uploadImage() {
 		.catch(function(error) {
 			console.log(error)
 		});
+}
+
+function setID() {
+	const idInput = document.getElementById("productid")
+	idInput.value = idGenerator()
+}
+
+function idGenerator() {
+	str = ""
+	let d = new Date();
+	const arr = [
+		d.getFullYear().toString().substring(2, 4),
+		d.getMonth() + 1,
+		d.getDate(),
+		d.getHours(),
+		d.getMinutes(),
+		d.getSeconds()]
+	for (let i = 0; i < 6; i++) {
+		if (arr[i].toString().length < 2) {
+			str += "0" + arr[i].toString()
+		} else {
+			str += arr[i].toString()
+		}
+	}
+	return str
 }

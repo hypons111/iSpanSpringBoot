@@ -18,9 +18,9 @@
 					<th><a href="insertform"><button>Add New Product</button></a></th>
 					<th><button id="showAll">Show All Product</button></th>
 					<th>
-						<form method="post" action="bacthform">
+						<form>
 							<button id="batchButton">Batch</button>
-							<input id="batchHiddenInput" type="text" name="idList" value="" />
+							<input id="batchHiddenInput" type="hidden" name="idList" value="" />
 						</form>
 					</th>
 				</tr>
