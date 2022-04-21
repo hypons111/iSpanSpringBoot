@@ -12,18 +12,18 @@
 		<table border="1">
 			<thead>
 				<tr>
-					<th>ID</th>
-					<th>Type</th>
-					<th>Name</th>
-					<th>Stock</th>
-					<th>Buy</th>
-					<th>Sell</th>
-					<th>Description</th>
-					<th>Image</th>
+					<th>產品編號</th>
+					<th>產品種類</th>
+					<th>產品名稱</th>
+					<th>產品存量</th>
+					<th>產品買價</th>
+					<th>產品售價</th>
+					<th>產品介紹 </th>
+					<th>產品圖片</th>
 				</tr>
 			</thead>
 			<tbody id="resultTable">
-				<td id='id'>						<input id='productid' 			type='text' class='產品編號' name='id' value=''></td>
+				<td id='id'>						<input id='productid' 			type='text' class='產品編號' name='id' value='' disabled ></td>
 				<td id='typeList' width='155px'>	<input id='producttype' 		type='text' class='產品種類 input' name='type' value=''></td>
 				<td id='name'>						<input id='productname' 		type='text' class='產品名稱 input' name='name' value=''></td>
 				<td>								<input id='productstock'		type='text' class='產品存量 input' name='stock' value=''></td>
@@ -31,8 +31,7 @@
 				<td>								<input id='productprice' 		type='text' class='產品售價 input' name='price' value=''></td>
 				<td>								<input id='productdescription' 	type='text' class='產品介紹 input' name='description' value=''></td>
 				<td id='imageTD'>					<input id='productimage' 		type='file' class='產品圖片 input' name='imageFile' value=''></td>
-				<td><button id='submitButton'>Submit</button></td>
-				<td><button>Cancel</button></td>
+				<td><button id='submitButton'>新增</button></td>
 			</tbody>
 		</table>
 	</form>

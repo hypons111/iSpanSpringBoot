@@ -33,6 +33,7 @@ function addSortEventListeners() {
 	// 安裝排序 listener
 	sorts.forEach(sort => {
 		sort.addEventListener('click', (event) => {
+
 			event.preventDefault()
 			let attribute = event.target.classList[0]
 			if (sortStates === "ASC") {
@@ -86,9 +87,10 @@ function showData(data) {
 		contents += "<td>" + data[i].productstock + "</td>"
 		contents += "<td>" + data[i].productcost + "</td>"
 		contents += "<td>" + data[i].productprice + "</td>"
+		contents += "<td>" + data[i].productdescription + "</td>"
 		contents += "<td><img src='/product/images/product/" + data[i].productimage + "?" + Math.random() + "' width='50px'></td>"
-		contents += "<td><a href=updateform?systemid=" + data[i].systemid + "><button>Edit</button></a></td>"
-		contents += "<td><a href=delete?systemid=" + data[i].systemid + "><button id='deleteButton'data-productid='" + data[i].productid + "' >Delete</button></a></td></tr>"
+		contents += "<td><a href=updateform?systemid=" + data[i].systemid + "><button>修改</button></a></td>"
+		contents += "<td><a href=delete?systemid=" + data[i].systemid + "><button id='deleteButton'data-productid='" + data[i].productid + "' >刪除</button></a></td></tr>"
 	}
 	resultTable.innerHTML = contents
 }

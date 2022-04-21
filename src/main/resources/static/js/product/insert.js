@@ -47,7 +47,12 @@ function addEventListeners(data) {
 	const submitButton = document.getElementById("submitButton")
 	const inputChecking = document.getElementById("inputChecking")
 
-
+	// 防止更改產品編號
+	document.querySelector("#id").addEventListener("click", () => {
+		event.preventDefault()
+		alert("產品編號不能更改")
+	})
+	
 	// 檢查重複產品名稱
 	document.querySelector("#name input").addEventListener("change", (event) => {
 		for (let i = 0; i < data.length; i++) {
@@ -107,6 +112,7 @@ function addEventListeners(data) {
 
 		// 送出請求
 		if (switcher === "on") {
+			document.querySelector(".產品編號").disabled = false
 			sendRequests()
 		}
 	})

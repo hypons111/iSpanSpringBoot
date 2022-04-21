@@ -15,11 +15,11 @@
 		<table>
 			<tbody>
 				<tr>
-					<th><a href="insertform"><button>Add New Product</button></a></th>
-					<th><button id="showAll">Show All Product</button></th>
+					<th><a href="insertform"><button>新增產品</button></a></th>
+					<th><button id="showAll">顯示全部產品</button></th>
 					<th>
 						<form>
-							<button id="batchButton">Batch</button>
+							<button id="batchButton">批次處理</button>
 							<input id="batchHiddenInput" type="hidden" name="idList" value="" />
 						</form>
 					</th>
@@ -30,25 +30,28 @@
 			<thead>
 				<tr>
 					<th><p id="totalNum"></p></th>
-					<th><button class="product_Type" id="sort">Type</button> <input
+					<th><button class="producttype" id="sort">種類</button> <input
 						id="type" class="columnSearchInput" type="text" placeholder=""
 						value=""></th>
-					<th><button class="product_ID" id="sort">ID</button> <input
+					<th><button class="productid" id="sort">ID</button> <input
 						id="id" class="columnSearchInput" type="text" placeholder=""
 						value=""></th>
-					<th><button class="product_Name" id="sort">Name</button> <input
+					<th><button class="productname" id="sort">名稱</button> <input
 						id="name" class="columnSearchInput" type="text" placeholder=""
 						value=""></th>
-					<th><button class="product_Stock" id="sort">Stock</button> <input
+					<th><button class="productstock" id="sort">庫存</button> <input
 						id="stock" class="columnSearchInput" type="text" placeholder=""
 						value=""></th>
-					<th><button class="product_Cost" id="sort">Buy</button> <input
+					<th><button class="productcost" id="sort">成本</button> <input
 						id="cost" class="columnSearchInput" type="text" placeholder=""
 						value=""></th>
-					<th><button class="product_Price" id="sort">Sell</button> <input
+					<th><button class="productprice" id="sort">售價</button> <input
 						id="price" class="columnSearchInput" type="text" placeholder=""
 						value=""></th>
-					<th>Image</th>
+					<th><button class="productdescription" id="sort">簡介</button> <input
+						id="description" class="columnSearchInput" type="text" placeholder=""
+						value=""></th>
+					<th>圖片</th>
 				</tr>
 			</thead>
 			<tbody id="resultTable"></tbody>
